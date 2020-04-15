@@ -3,6 +3,7 @@ const handleError = require("./middleware/error");
 const auth = require('./middleware/auth')
 const example = require('./handlers/examples')
 const users = require('./handlers/users')
+const dotenv= require("dotenv"); dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +19,8 @@ server.get("/", example.getAllExamples);
 
 server.use(handleError);
 
-server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+if(process.env.PGDATABASE !== "localtest"){
+  server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+}
 
 module.exports = server
