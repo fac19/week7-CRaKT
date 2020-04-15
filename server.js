@@ -1,7 +1,7 @@
 const express = require("express");
 const handleError = require("./middleware/error");
 const auth = require('./middleware/auth')
-const example = require('./handlers/example')
+const example = require('./handlers/examples')
 const users = require('./handlers/users')
 
 const PORT = process.env.PORT || 3000;
