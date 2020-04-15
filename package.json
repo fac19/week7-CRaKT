@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "PGDATABASE=localtest tape test/*.test.js | tap-spec",
+    "test": "PGDATABASE=localtest tape tests/*.test.js | tap-spec",
     "dev": "nodemon server.js",
     "setupdb": "node src/db/build.js"
   },
