@@ -1,0 +1,33 @@
+{
+  "name": "week7-crakt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "PGDATABASE=localtest tape test/*.test.js | tap-spec",
+    "dev": "nodemon server.js",
+    "setupdb": "node src/db/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fac19/week7-CRaKT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fac19/week7-CRaKT/issues"
+  },
+  "homepage": "https://github.com/fac19/week7-CRaKT#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.2"
+  },
+  "devDependencies": {
+    "tap-spec": "^5.0.0",
+    "supertest": "^4.0.2",
+    "tape": "^4.13.2",
+    "nodemon": "^2.0.3"
+  }
+}
