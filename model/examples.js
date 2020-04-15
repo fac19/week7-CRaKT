@@ -1,3 +1,9 @@
-const db = require("./db/connection.js");
+const db = require("../db/connection.js");
 
-module.exports = {};
+function getAllExamples() {
+    return db.query("SELECT * FROM examples;").then(result => result.rows);
+}
+
+module.exports = {
+    getAllExamples
+};
