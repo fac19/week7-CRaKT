@@ -10,10 +10,12 @@ const server = express();
 server.use(express.json());
 
 server.get("/", examples.getAllExamples);
-server.get("/example/:id", examples.getExample);
+server.get("/examples/:id", examples.getExample);
 
 server.get("/", examples.getAllExamples);
-server.post("/examples", auth, examples.post); // ADD AUTH MIDDLEWARE
+server.post("/examples", auth, examples.post);
+server.delete("/examples/:id", auth, examples.del);
+server.put("/examples/:id", auth, examples.updateExample); //NEED TO TEST
 
 server.post("/signup", users.post);
 server.post("/login", users.login);
