@@ -93,9 +93,16 @@ test("Test /login route", (t) => {
 
 test("Test /example POST route", (t) => {
   build().then(() => {
-    const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
-      expiresIn: "1hr",
-    });
+    const token = jwt.sign(
+      {
+        user_id: 2,
+        admin: false,
+      },
+      process.env.SECRET,
+      {
+        expiresIn: "1hr",
+      }
+    );
     supertest(server)
       .post("/examples")
       .set({
@@ -120,12 +127,64 @@ test("Test /example POST route", (t) => {
       });
   });
 });
-// skipped
+
+test("Test /login route", (t) => {
+  build().then(() => {
+    supertest(server)
+      .post("/login")
+      .send({
+        email: "roger@iscool.com",
+        password: "password",
+      })
+      .expect(200)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.notEquals(res.body.token, undefined, "Check that a token exists");
+        t.equals(
+          /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/.test(
+            res.body.token
+          ),
+          true,
+          "Check for correct jwt token"
+        );
+        t.end();
+      });
+  });
+});
+
+test("Test GET/example/:id route", (t) => {
+  build().then(() => {
+    supertest(server)
+      .get("/example/2")
+      .expect(200)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err);
+        t.equals(typeof res.body, "object", "Check that res.body is an object");
+        t.equals(res.body.language, "sql", "Check the language is the same");
+        t.equals(
+          res.body.title,
+          "Test example 2",
+          "Check the title is the same"
+        );
+        t.end();
+      });
+  });
+});
 test.skip("Test /example POST route fails without valid auth token", (t) => {
   build().then(() => {
-    const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
-      expiresIn: "1hr",
-    });
+    const token = jwt.sign(
+      {
+        user_id: 2,
+        admin: false,
+      },
+      process.env.SECRET,
+      {
+        expiresIn: "1hr",
+      }
+    );
     supertest(server)
       .post("/examples")
       .set({

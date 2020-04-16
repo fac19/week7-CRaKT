@@ -10,6 +10,9 @@ const server = express();
 server.use(express.json());
 
 server.get("/", examples.getAllExamples);
+server.get("/example/:id", examples.getExample);
+
+server.get("/", examples.getAllExamples);
 server.post("/examples", auth, examples.post); // ADD AUTH MIDDLEWARE
 server.delete("/examples/:id", auth, examples.del);
 

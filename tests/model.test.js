@@ -10,6 +10,12 @@ const {
   getExampleById
 } = require("../model/users");
 
+const {
+  getExample,
+  updateExample,
+  updateExamplebyID,
+} = require("../model/examples");
+
 test("DB tests are running!", (t) => {
   const x = 5;
   t.equal(x, 5, "this is working");
@@ -53,12 +59,14 @@ test("Returns user with a given email address", (t) => {
   });
 });
 
-test("Returns a users row by id", (t) => {
+test("Can get an example by id", (t) => {
   build().then(() => {
-    getUserById("2")
+    getExample(1)
       .then((res) => {
-        t.equal(res.username, "Tom");
-        t.equal(res.adminusr, false);
+        // console.log(res)
+        t.equal(res.language, "js");
+        t.equal(res.title, "Test example 1");
+        t.equal(res.example, "Example 1 code goes here.");
         t.end();
       })
       .catch((err) => {
@@ -68,12 +76,40 @@ test("Returns a users row by id", (t) => {
   });
 });
 
-// test("Test getExampleById", (t) => {
+test.skip("get update an example by id", (t) => {
+  build().then(() => {
+    const data = {
+      language: "sql",
+      // title: 'SQL example snippet',
+      example: "This is an example of SQL",
+    };
+    updateExamplebyID(4, data)
+      .then((res) => {
+        t.equal(res.language, "sql");
+        // t.equal(res.title, 'SQL example snippet')
+        t.equal(res.title, "Test example 4");
+        t.equal(res.example, "This is an example of SQL");
+        t.end();
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      });
+  });
+});
+
+// test.only("Can update an example by id without all values", (t) => {
 //   build().then(() => {
-//     getExampleById("2")
+//     const data = {
+//       language: "sql",
+//       example: "This is an example of SQL",
+//     };
+//     updateExample(4, data)
 //       .then((res) => {
-//         t.equal(res.title, "Test example 2");
-//         t.equal(res.example, "Example 2 code goes here");
+//         t.equal(res.language, "sql");
+//         // t.equal(res.title, 'SQL example snippet')
+//         t.equal(res.title, null);
+//         t.equal(res.example, "This is an example of SQL");
 //         t.end();
 //       })
 //       .catch((err) => {
@@ -83,16 +119,26 @@ test("Returns a users row by id", (t) => {
 //   });
 // });
 
+// test("Returns a users row by id", (t) => {
+//   build().then(() => {
+//     getUserById("2")
+//       .then((res) => {
+//         t.equal(res.username, "Tom");
+//         t.equal(res.adminusr, false);
+//         t.end();
+//       })
+//       .catch((err) => {
+//         t.error(err);
+//         t.end();
+//       });
+//   });
+// });
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
-//       t.throws(() => getUser("hello@iscool.com"))
-//       t.end();
-//     })
-//     .catch((err) => {
-//       t.error(err);
-//       t.end();
-//     });
+//     t.throws(() => getUser("hello@iscool.com"))
+//     t.end();
+//   })
 // });
 
 // test("Does not allow duplicate users when email is already in use", (t) => {

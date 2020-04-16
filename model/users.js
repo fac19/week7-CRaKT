@@ -14,6 +14,7 @@ function getUsers() {
 }
 
 function getUser(email) {
+  console.log("EMAIL IS:", email);
   return db
     .query("SELECT * FROM users WHERE email = ($1);", [email])
     .then((res) => {
