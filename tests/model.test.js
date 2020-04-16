@@ -1,11 +1,12 @@
 const build = require("../db/build");
 const test = require("tape");
-const request = require('supertest');
+const request = require("supertest");
 
 const {
   createUser,
   getUsers,
-  getUser
+  getUser,
+  getUserById,
 } = require("../model/users");
 
 test("DB tests are running!", (t) => {
@@ -38,10 +39,25 @@ test("Can create new user", (t) => {
 
 test("Returns user with a given email address", (t) => {
   build().then(() => {
-    getUser("admins@iscool.com")
+    getUser("admin@iscool.com")
       .then((res) => {
         t.equal(res.username, "admin");
         t.equal(res.adminusr, true);
+        t.end();
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      });
+  });
+});
+
+test("Returns a users row by id", (t) => {
+  build().then(() => {
+    getUserById("2")
+      .then((res) => {
+        t.equal(res.username, "Tom");
+        t.equal(res.adminusr, false);
         t.end();
       })
       .catch((err) => {
@@ -61,7 +77,6 @@ test("Returns user with a given email address", (t) => {
 //       t.end();
 //     });
 // });
-
 
 // test("Does not allow duplicate users when email is already in use", (t) => {
 //   build()
