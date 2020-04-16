@@ -9,7 +9,6 @@ function getAllExamples(req, res, next) {
 
 // Inserts a new example into the examples table and returns the inserted row's id
 function post(req, res, next) {
-  console.log("NEW POST:", req.body);
   req.body.user_id = req.user.user_id;
   req.body.admin = req.user.admin;
   modelExample
@@ -20,6 +19,16 @@ function post(req, res, next) {
       });
     })
     .catch(next);
+}
+
+function del(req, res, next) {
+  modelExample
+    .deleteExample( req.params.id, req.user.id )
+    .then(() => {
+      res.status(200).send({deleted: true})
+    })
+    .catch(next);
+
 }
 
 function getExample(req, res, next) {
@@ -38,4 +47,5 @@ module.exports = {
   getAllExamples,
   post,
   getExample,
+  del
 };

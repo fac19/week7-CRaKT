@@ -34,6 +34,26 @@ function createExample(example) {
     });
 }
 
+// function getExampleById(id) {
+//   return db
+//     .query("SELECT * FROM examples WHERE id = ($1);", [id])
+//     .then( result => result.rows[0] );
+// }
+
+function deleteExample(exampleId, userId) {
+  return getExample(exampleId)
+  .then( exampleObjectFromDB => {
+    console.log("exampleObjectFromDB:", exampleObjectFromDB);
+    if(exampleObjectFromDB.id === userId){
+      return db.query("DELETE FROM examples WHERE id = ($1);", [exampleId])
+          .then( result => true )
+          .catch( (error) => new Error ('PROBLEM DELETING!') )
+    } else {
+      return false;
+    }
+  })
+}
+
 function getExample(id) {
   return db
     .query("SELECT * FROM examples WHERE id=($1)", [id])
@@ -77,5 +97,6 @@ module.exports = {
   createExample,
   getExample,
   updateExample,
+  deleteExample
   //   updateExamplebyID,
 };

@@ -1,5 +1,9 @@
 function handleError(err, req, res, next){
-    console.error(err);
+
+    const errorStatus = err.status || 400;
+    res.status(errorStatus).send({ "error": err });
+    // console.error(err);
+
 }
 
 module.exports = handleError;

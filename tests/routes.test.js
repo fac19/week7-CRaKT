@@ -209,3 +209,42 @@ test.skip("Test /example POST route fails without valid auth token", (t) => {
       });
   });
 });
+
+test("Test /example/1 DELETE route", (t) => {
+  build().then(() => {
+    const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
+      expiresIn: "1hr",
+    });
+    supertest(server)
+      .delete("/examples/1")
+      .set({
+        Authorization: "Bearer " + token,
+      })
+      .expect(200)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.equals(res.body.deleted, true, "Item deleted");
+        t.end();
+      });
+  });
+});
+
+test("Test /example/1 DELETE route fails with bad user", (t) => {
+  build().then(() => {
+    supertest(server)
+      .delete("/examples/1")
+      .set({
+        Authorization: "Bearer " + "dffgasdfhljsdfhdsflsdfj",
+      })
+      .expect(401)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.equals(res.body.error.status, 401, "Should get error with status 401");
+        t.end();
+      });
+  });
+});
