@@ -6,9 +6,7 @@ const users = require("./handlers/users");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-
 const server = express();
-
 server.use(express.json());
 
 server.get("/", example.getAllExamples);
@@ -18,6 +16,7 @@ server.post("/example", example.post); // ADD AUTH MIDDLEWARE
 
 
 server.post("/signup", users.post);
+server.post("/login", users.login);
 
 server.use(handleError);
 
