@@ -1,29 +1,27 @@
 const modelExample = require("../model/examples");
 
 function getAllExamples(req, res, next) {
-    modelExample
-        .getAllExamples()
-        .then(example => res.send(example))
-        .catch(next);
-    //You're frozen/glitchy    
+  modelExample
+    .getAllExamples()
+    .then((example) => res.send(example))
+    .catch(next);
+  //You're frozen/glitchy
 }
 
+// Inserts a new example into the examples table and returns the inserted row's id
 function post(req, res, next) {
-    console.log(req.body)
-    const newExample = req.body;
-    // console.log(req.users)
-    // const userId = req.user.id;
-    // newExample.owner_id = userId;
-    modelExample
-        .createExample(newExample)
-        .then((example) => {
-            console.log("handlers" + example)
-            res.sendStatus(201).send(example);
-        })
-        .catch(next)
+  console.log("NEW POST:", req.body);
+  req.body.user_id = req.user.user_id;
+  req.body.admin = req.user.admin;
+  modelExample
+    .createExample(req.body)
+    .then((exampleId) => {
+      res.status(201).send({ exampleId: exampleId });
+    })
+    .catch(next);
 }
 
 module.exports = {
-    getAllExamples,
-    post
-}
+  getAllExamples,
+  post,
+};
