@@ -12,6 +12,7 @@ const server = express();
 server.use(express.json());
 
 server.get("/", example.getAllExamples);
+server.post("/example", example.post); // ADD AUTH MIDDLEWARE
 
 
 
