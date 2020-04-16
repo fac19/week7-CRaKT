@@ -10,14 +10,12 @@ const server = express();
 server.use(express.json());
 
 server.get("/", examples.getAllExamples);
-server.get("/examples/:id", examples.getExample);
-
-server.get("/", examples.getAllExamples);
 server.post("/examples", auth, examples.post);
+server.get("/examples/:id", examples.getExample);
 server.delete("/examples/:id", auth, examples.del);
 server.put("/examples/:id", auth, examples.updateExample); //NEED TO TEST
 
-server.post("/signup", users.post);
+server.post("/signup", users.signup);
 server.post("/login", users.login);
 
 server.use(handleError);
