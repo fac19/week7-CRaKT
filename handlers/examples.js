@@ -5,7 +5,6 @@ function getAllExamples(req, res, next) {
     .getAllExamples()
     .then((example) => res.send(example))
     .catch(next);
-  //You're frozen/glitchy
 }
 
 // Inserts a new example into the examples table and returns the inserted row's id
@@ -16,12 +15,27 @@ function post(req, res, next) {
   modelExample
     .createExample(req.body)
     .then((exampleId) => {
-      res.status(201).send({ exampleId: exampleId });
+      res.status(201).send({
+        exampleId: exampleId,
+      });
     })
     .catch(next);
 }
 
+function getExample(req, res, next) {
+  const id = req.params.id;
+  modelExample
+    .getExample(id)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch(next);
+}
+
+// function updateExample()
+
 module.exports = {
   getAllExamples,
   post,
+  getExample,
 };

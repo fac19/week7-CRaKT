@@ -17,7 +17,7 @@ function verifyUser(req, res, next) {
       // if verification fails JWT throws an error, hence the try/catch
       const tokenData = jwt.verify(token, SECRET);
       model
-        .getUserById(tokenData.user_id)
+        .getUser(tokenData.user_id)
         .then((user) => {
           // attach the authenticated user to the request object
           // so other handlers can access it without doing all this nonsense
