@@ -9,9 +9,8 @@ const PORT = process.env.PORT || 3000;
 const server = express();
 server.use(express.json());
 
-server.get("/", example.getAllExamples);
-server.get("/example/:id", example.getExample);
-
+server.get("/", examples.getAllExamples);
+server.get("/example/:id", examples.getExample);
 
 server.get("/", examples.getAllExamples);
 server.post("/examples", auth, examples.post); // ADD AUTH MIDDLEWARE
@@ -22,9 +21,9 @@ server.post("/login", users.login);
 server.use(handleError);
 
 if (process.env.PGDATABASE !== "localtest") {
-    server.listen(PORT, () =>
-        console.log(`Listening on http://localhost:${PORT}`)
-    );
+  server.listen(PORT, () =>
+    console.log(`Listening on http://localhost:${PORT}`)
+  );
 }
 
 module.exports = server;

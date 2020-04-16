@@ -6,18 +6,14 @@ const {
   createUser,
   getUsers,
   getUser,
-  <<
-  << << < HEAD ===
-  === =
   getUserById,
-  >>>
-  >>> > master
 } = require("../model/users");
 
 const {
   getExample,
-  updateExample
-} = require('../model/examples')
+  updateExample,
+  updateExamplebyID,
+} = require("../model/examples");
 
 test("DB tests are running!", (t) => {
   const x = 5;
@@ -62,52 +58,14 @@ test("Returns user with a given email address", (t) => {
   });
 });
 
-test('Can get an example by id', t => {
+test("Can get an example by id", (t) => {
   build().then(() => {
     getExample(1)
       .then((res) => {
         // console.log(res)
-        t.equal(res.language, 'js')
-        t.equal(res.title, "Test example 1")
-        t.equal(res.example, 'Example 1 code goes here.')
-        t.end()
-      })
-      .catch((err) => {
-        t.error(err);
-        t.end();
-      })
-  });
-})
-
-test.only('get update an example by id', t => {
-  build().then(() => {
-    const data = {
-      language: 'sql',
-      // title: 'SQL example snippet',
-      example: 'This is an example of SQL'
-    }
-    updateExample(4, data)
-      .then(res => {
-        t.equal(res.language, 'sql')
-        // t.equal(res.title, 'SQL example snippet')
-        t.equal(res.title, null)
-        t.equal(res.example, 'This is an example of SQL')
-        t.end()
-      })
-      .catch((err) => {
-        t.error(err);
-        t.end();
-      })
-
-  })
-})
-
-test("Returns a users row by id", (t) => {
-  build().then(() => {
-    getUserById("2")
-      .then((res) => {
-        t.equal(res.username, "Tom");
-        t.equal(res.adminusr, false);
+        t.equal(res.language, "js");
+        t.equal(res.title, "Test example 1");
+        t.equal(res.example, "Example 1 code goes here.");
         t.end();
       })
       .catch((err) => {
@@ -116,6 +74,64 @@ test("Returns a users row by id", (t) => {
       });
   });
 });
+
+test("get update an example by id", (t) => {
+  build().then(() => {
+    const data = {
+      language: "sql",
+      // title: 'SQL example snippet',
+      example: "This is an example of SQL",
+    };
+    updateExamplebyID(4, data)
+      .then((res) => {
+        t.equal(res.language, "sql");
+        // t.equal(res.title, 'SQL example snippet')
+        t.equal(res.title, "Test example 4");
+        t.equal(res.example, "This is an example of SQL");
+        t.end();
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      });
+  });
+});
+
+// test.only("Can update an example by id without all values", (t) => {
+//   build().then(() => {
+//     const data = {
+//       language: "sql",
+//       example: "This is an example of SQL",
+//     };
+//     updateExample(4, data)
+//       .then((res) => {
+//         t.equal(res.language, "sql");
+//         // t.equal(res.title, 'SQL example snippet')
+//         t.equal(res.title, null);
+//         t.equal(res.example, "This is an example of SQL");
+//         t.end();
+//       })
+//       .catch((err) => {
+//         t.error(err);
+//         t.end();
+//       });
+//   });
+// });
+
+// test("Returns a users row by id", (t) => {
+//   build().then(() => {
+//     getUserById("2")
+//       .then((res) => {
+//         t.equal(res.username, "Tom");
+//         t.equal(res.adminusr, false);
+//         t.end();
+//       })
+//       .catch((err) => {
+//         t.error(err);
+//         t.end();
+//       });
+//   });
+// });
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
