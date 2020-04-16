@@ -7,6 +7,7 @@ function createUser(user) {
       [user.username, user.email, user.password]
     )
     .then((res) => res.rows[0].id);
+
 }
 
 function getUsers() {

@@ -28,7 +28,7 @@ function post(req, res, next) {
         .createUser(newUser)
         .then((userID) => {
           const token = jwt.sign({
-            user: userID,
+            user_id: userID,
             admin: false
           }, secret, {
             expiresIn: "1h"
@@ -39,12 +39,38 @@ function post(req, res, next) {
             "token": token
           });
         })
-        //returns empty array. should be token?
         .catch(next)
     })
     .catch(console.error)
 }
 
+function login(req, res, next) {
+  console.log(req.body.email, req.body.password);
+  model.getUser(req.body.email)
+    .then(dbUser => {
+      console.log(dbUser);
+      return bcrypt.compare(req.body.password, dbUser.user_password)
+        .then(result => {
+          if (!result) throw new Error("Bad password!");
+
+          const claims = {
+            user_id: dbUser.id,
+            admin: dbUser.adminusr || false
+          }
+          const token = jwt.sign(claims, secret, {
+            expiresIn: "24h"
+          });
+          res.send({
+            "token": token
+          });
+
+        })
+    })
+    .catch(next)
+}
+
+
 module.exports = {
-  post
+  post,
+  login
 };
