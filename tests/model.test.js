@@ -31,7 +31,7 @@ test("Can create new user", (t) => {
   });
 });
 
-test("Returns user with a given email adress", (t) => {
+test("Returns user with a given email address", (t) => {
   build().then(() => {
     getUser("admin@iscool.com")
       .then((res) => {
