@@ -53,21 +53,14 @@ test("Returns user with a given email address", (t) => {
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
-//     getUser("hello@iscool.com")
-//       .then((res) => {
-//         console.log(res)
-//         t.equal(res, isError());
-//         // t.throws(function(err))
-//         // t.equal(res.adminusr, true);
-//         t.end();
-//       })
-//       .catch((err) => {
-//         t.error(err);
-//         t.end();
-//       });
-//   });
+//       t.throws(() => getUser("hello@iscool.com"))
+//       t.end();
+//     })
+//     .catch((err) => {
+//       t.error(err);
+//       t.end();
+//     });
 // });
-
 
 
 // test("Does not allow duplicate users when email is already in use", (t) => {

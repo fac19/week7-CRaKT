@@ -25,3 +25,33 @@ test("Test main route returns 200", t => {
         })
     })
 })
+
+
+
+test.only("Test /signup route", t => {
+  build()
+    .then(() => {
+
+      supertest(server)
+        .post("/signup")
+        .send({
+          'username': 'Harry',
+          'email': 'harry@potter.com',
+          'password': 'wizard'
+        })
+        .expect(201)
+        .expect("content-type", "application/json; charset=utf-8")
+        .end((err, res) => {
+          t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+          // console.log(res.body)
+          t.equals(typeof res.body, typeof {}, "Check an Object is returned")
+          t.equals(res.body.username, 'Harry', 'Username should be Harry')
+          t.notEquals(res.body.token, undefined, 'Check that a token exists')
+          t.equals(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/.test(res.body.token), true, 'Check for correct jwt token')
+          t.end();
+        })
+
+
+
+    })
+})
