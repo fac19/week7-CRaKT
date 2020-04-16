@@ -11,6 +11,7 @@ server.use(express.json());
 
 server.get("/", examples.getAllExamples);
 server.post("/examples", auth, examples.post); // ADD AUTH MIDDLEWARE
+server.delete("/examples/:id", auth, examples.del);
 
 server.post("/signup", users.post);
 server.post("/login", users.login);

@@ -120,7 +120,7 @@ test("Test /example POST route", (t) => {
       });
   });
 });
-
+// skipped
 test.skip("Test /example POST route fails without valid auth token", (t) => {
   build().then(() => {
     const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
@@ -146,6 +146,30 @@ test.skip("Test /example POST route fails without valid auth token", (t) => {
           typeof 1,
           "Check we get an integer ID"
         );
+        t.end();
+      });
+  });
+});
+
+test.skip("Test /example/:1 DELETE route", (t) => {
+  build().then(() => {
+    const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
+      expiresIn: "1hr",
+    });
+    supertest(server)
+      .delete("/examples/:1")
+      .set({
+        Authorization: "Bearer " + token,
+      })
+      .send({
+        exampleId: 1
+      })
+      .expect(200)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.equals(res.body.deleted, true, "Item deleted");
         t.end();
       });
   });

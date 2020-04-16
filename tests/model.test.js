@@ -7,6 +7,7 @@ const {
   getUsers,
   getUser,
   getUserById,
+  getExampleById
 } = require("../model/users");
 
 test("DB tests are running!", (t) => {
@@ -66,6 +67,22 @@ test("Returns a users row by id", (t) => {
       });
   });
 });
+
+// test("Test getExampleById", (t) => {
+//   build().then(() => {
+//     getExampleById("2")
+//       .then((res) => {
+//         t.equal(res.title, "Test example 2");
+//         t.equal(res.example, "Example 2 code goes here");
+//         t.end();
+//       })
+//       .catch((err) => {
+//         t.error(err);
+//         t.end();
+//       });
+//   });
+// });
+
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
