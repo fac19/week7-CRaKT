@@ -1,7 +1,7 @@
 const express = require("express");
 const handleError = require("./middleware/error");
 const auth = require("./middleware/auth");
-const example = require("./handlers/examples");
+const examples = require("./handlers/examples");
 const users = require("./handlers/users");
 require("dotenv").config();
 
@@ -10,10 +10,11 @@ const server = express();
 server.use(express.json());
 
 server.get("/", example.getAllExamples);
-server.post("/example", example.post); // ADD AUTH MIDDLEWARE
 server.get("/example/:id", example.getExample);
 
 
+server.get("/", examples.getAllExamples);
+server.post("/examples", auth, examples.post); // ADD AUTH MIDDLEWARE
 
 server.post("/signup", users.post);
 server.post("/login", users.login);
@@ -21,7 +22,9 @@ server.post("/login", users.login);
 server.use(handleError);
 
 if (process.env.PGDATABASE !== "localtest") {
-    server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+    server.listen(PORT, () =>
+        console.log(`Listening on http://localhost:${PORT}`)
+    );
 }
 
 module.exports = server;

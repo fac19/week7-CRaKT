@@ -25,11 +25,11 @@ CREATE TABLE examples
 INSERT INTO users
     (username, email, user_password, adminusr)
 VALUES
-    ('admin', 'admin@iscool.com', '$2a$10$3IAfxI7ekmnHqMv1T8a46O./avVNcq/YYk6SGkRwxEHsy9cQasuUy', true),
-    ('Tom', 'tom@iscool.com', '$2a$10$3IAfxI7ekmnHqMv1T8a46O./avVNcq/YYk6SGkRwxEHsy9cQasuUy', false),
-    ('Chloe', 'chloe@iscool.com', '$2a$10$3IAfxI7ekmnHqMv1T8a46O./avVNcq/YYk6SGkRwxEHsy9cQasuUy', false),
-    ('Kat', 'kat@iscool.com', '$2a$10$det9UYQkW9avEapZQHEti.hcEYC6s4t0YzpXW1C949xMXxQpi.RC2', false),
-    ('Roger', 'roger@iscool.com', '$2a$10$Ii5o1InMg1gy4k9ylTTfiOyzDfOzKJ2n.6NuuxdgrPmx088X0DXna', false);
+    ('admin', 'admin@iscool.com', '$2a$10$zH7.4s2AbH8Lz.SqsauRSOldLUacu3axD.0ZgoR2v2CJpM/pItOiy', true),
+    ('Tom', 'tom@iscool.com', '$2a$10$aHsFImUy5q1fj37Z72O6r.iUpDLL1CBH38UCaHGK25CEP5W5uyVQa', false),
+    ('Chloe', 'chloe@iscool.com', '$2a$10$QFV6woSkfTa6XhaJAYYCmu8fqkLOduWm.kDzZI56crZCTIaKzaFDy', false),
+    ('Kat', 'kat@iscool.com', '$2a$10$SSahAXMX/e.3VS0juErkceVbwwR1iL8/cWYnOD5IILyf.74EMnHr6', false),
+    ('Roger', 'roger@iscool.com', '$2a$10$./Rk0decBFt/XHJcIJX2XOq3Qq0AbfsQCPNQ7Gz66TA7dFK8l5/Fm', false);
 
 INSERT INTO examples
     (owner_id, language, title, example)

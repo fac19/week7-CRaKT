@@ -7,7 +7,6 @@ function createUser(user) {
       [user.username, user.email, user.password]
     )
     .then((res) => res.rows[0].id);
-
 }
 
 function getUsers() {
@@ -24,8 +23,15 @@ function getUser(email) {
     });
 }
 
+function getUserById(id) {
+  return db
+    .query("SELECT * FROM users WHERE id = ($1)", [id])
+    .then((res) => res.rows[0]);
+}
+
 module.exports = {
   createUser,
   getUsers,
-  getUser
+  getUser,
+  getUserById,
 };

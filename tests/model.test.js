@@ -1,11 +1,17 @@
 const build = require("../db/build");
 const test = require("tape");
-const request = require('supertest');
+const request = require("supertest");
 
 const {
   createUser,
   getUsers,
   getUser,
+  <<
+  << << < HEAD ===
+  === =
+  getUserById,
+  >>>
+  >>> > master
 } = require("../model/users");
 
 const {
@@ -43,7 +49,7 @@ test("Can create new user", (t) => {
 
 test("Returns user with a given email address", (t) => {
   build().then(() => {
-    getUser("admins@iscool.com")
+    getUser("admin@iscool.com")
       .then((res) => {
         t.equal(res.username, "admin");
         t.equal(res.adminusr, true);
@@ -96,6 +102,20 @@ test.only('get update an example by id', t => {
   })
 })
 
+test("Returns a users row by id", (t) => {
+  build().then(() => {
+    getUserById("2")
+      .then((res) => {
+        t.equal(res.username, "Tom");
+        t.equal(res.adminusr, false);
+        t.end();
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      });
+  });
+});
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
@@ -103,7 +123,6 @@ test.only('get update an example by id', t => {
 //     t.end();
 //   })
 // });
-
 
 // test("Does not allow duplicate users when email is already in use", (t) => {
 //   build()
