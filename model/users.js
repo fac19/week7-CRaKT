@@ -17,9 +17,14 @@ function getUser(email) {
   return db
     .query("SELECT * FROM users WHERE email = ($1);", [email])
     .then((res) => {
-      if (!res.length) throw new Error("User does not exist");
+      console.log(res.rows)
+      if (res.rows.length < 1) throw new Error("User does not exist");
       return res.rows[0];
     });
 }
 
-module.exports = { createUser, getUsers, getUser };
+module.exports = {
+  createUser,
+  getUsers,
+  getUser
+};

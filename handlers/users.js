@@ -7,17 +7,28 @@ dotenv.config();
 const secret = process.env.JWT_SECRET;
 
 function post(req, res, next) {
-  const newUser = req.body;
+  const newUser = req.body.email;
+  const password = req.body.password
 
-  model
-    .createUser(newUser)
-    .then((user) => {
-      const token = jwt.sign({ user: user.id }, secret, { expiresIn: "1h" });
-      user.access_token = token;
-      res.status(201).send(user);
-    })
-    //returns empty array. should be token?
-    .catch(next);
+  bcrypt.genSalt(10)
+    .then(salt => bcrypt.hash(password, salt))
+    .then(hash =>
+      model
+      .createUser(newUser)
+      .then((user) => {
+        const token = jwt.sign({
+          user: user.id
+        }, secret, {
+          expiresIn: "1h"
+        });
+        user.access_token = token;
+        res.status(201).send(user);
+      })
+      //returns empty array. should be token?
+      .catch(next)
+    )
 }
 
-module.exports = { post };
+module.exports = {
+  post
+};
