@@ -29,7 +29,13 @@ function createExample(example) {
         });
 }
 
+function getExample(id) {
+    return db.query('SELECT * FROM examples WHERE id=($1)', [id])
+        .then(res => res.rows[0])
+}
+
 module.exports = {
     getAllExamples,
-    createExample
+    createExample,
+    getExample
 };

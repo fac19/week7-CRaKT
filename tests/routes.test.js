@@ -52,7 +52,7 @@ test("Test /signup route", t => {
     })
 })
 
-test.only("Test /login route", t => {
+test("Test /login route", t => {
   build()
     .then(() => {
       supertest(server)

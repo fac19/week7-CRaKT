@@ -5,8 +5,12 @@ const request = require('supertest');
 const {
   createUser,
   getUsers,
-  getUser
+  getUser,
 } = require("../model/users");
+
+const {
+  getExample
+} = require('../model/examples')
 
 test("DB tests are running!", (t) => {
   const x = 5;
@@ -51,15 +55,28 @@ test("Returns user with a given email address", (t) => {
   });
 });
 
+test.only('Can get an example by id', t => {
+  build().then(() => {
+    getExample(1)
+      .then((res) => {
+        // console.log(res)
+        t.equal(res.language, 'js')
+        t.equal(res.title, "Test example 1")
+        t.equal(res.example, 'Example 1 code goes here.')
+        t.end()
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      })
+  });
+})
+
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
-//       t.throws(() => getUser("hello@iscool.com"))
-//       t.end();
-//     })
-//     .catch((err) => {
-//       t.error(err);
-//       t.end();
-//     });
+//     t.throws(() => getUser("hello@iscool.com"))
+//     t.end();
+//   })
 // });
 
 
