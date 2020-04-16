@@ -1,5 +1,6 @@
 const build = require("../db/build");
 const test = require("tape");
+const request = require('supertest');
 
 const {
   createUser,
@@ -35,9 +36,9 @@ test("Can create new user", (t) => {
   });
 });
 
-test("Returns user with a given email adress", (t) => {
+test("Returns user with a given email address", (t) => {
   build().then(() => {
-    getUser("admin@iscool.com")
+    getUser("admins@iscool.com")
       .then((res) => {
         t.equal(res.username, "admin");
         t.equal(res.adminusr, true);
@@ -49,6 +50,25 @@ test("Returns user with a given email adress", (t) => {
       });
   });
 });
+
+// test("Returns error if no user found", (t) => {
+//   build().then(() => {
+//     getUser("hello@iscool.com")
+//       .then((res) => {
+//         console.log(res)
+//         t.equal(res, isError());
+//         // t.throws(function(err))
+//         // t.equal(res.adminusr, true);
+//         t.end();
+//       })
+//       .catch((err) => {
+//         t.error(err);
+//         t.end();
+//       });
+//   });
+// });
+
+
 
 // test("Does not allow duplicate users when email is already in use", (t) => {
 //   build()
