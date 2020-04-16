@@ -33,6 +33,8 @@ function getExample(req, res, next) {
         .catch(next);
 }
 
+// function updateExample()
+
 module.exports = {
     getAllExamples,
     post,

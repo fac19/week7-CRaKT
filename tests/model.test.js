@@ -9,7 +9,8 @@ const {
 } = require("../model/users");
 
 const {
-  getExample
+  getExample,
+  updateExample
 } = require('../model/examples')
 
 test("DB tests are running!", (t) => {
@@ -71,6 +72,30 @@ test('Can get an example by id', t => {
       })
   });
 })
+
+test.only('get update an example by id', t => {
+  build().then(() => {
+    const data = {
+      language: 'sql',
+      // title: 'SQL example snippet',
+      example: 'This is an example of SQL'
+    }
+    updateExample(4, data)
+      .then(res => {
+        t.equal(res.language, 'sql')
+        // t.equal(res.title, 'SQL example snippet')
+        t.equal(res.title, null)
+        t.equal(res.example, 'This is an example of SQL')
+        t.end()
+      })
+      .catch((err) => {
+        t.error(err);
+        t.end();
+      })
+
+  })
+})
+
 
 // test("Returns error if no user found", (t) => {
 //   build().then(() => {
