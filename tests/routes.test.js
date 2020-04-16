@@ -49,7 +49,6 @@ test("Test /signup route", (t) => {
       .expect("content-type", "application/json; charset=utf-8")
       .end((err, res) => {
         t.error(err, "HTTP status is 201 and application/json; charset=utf-8");
-        // console.log(res.body)
         t.equals(typeof res.body, typeof {}, "Check an Object is returned");
         t.equals(res.body.username, "Harry", "Username should be Harry");
         t.notEquals(res.body.token, undefined, "Check that a token exists");
@@ -91,7 +90,7 @@ test("Test /login route", (t) => {
   });
 });
 
-test("Test /example POST route", (t) => {
+test("Test /examples POST route with valid auth token", (t) => {
   build().then(() => {
     const token = jwt.sign(
       {
@@ -157,11 +156,11 @@ test("Test /login route", (t) => {
 test("Test GET/example/:id route", (t) => {
   build().then(() => {
     supertest(server)
-      .get("/example/2")
+      .get("/examples/2")
       .expect(200)
       .expect("content-type", "application/json; charset=utf-8")
       .end((err, res) => {
-        t.error(err);
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
         t.equals(typeof res.body, "object", "Check that res.body is an object");
         t.equals(res.body.language, "sql", "Check the language is the same");
         t.equals(
@@ -173,7 +172,8 @@ test("Test GET/example/:id route", (t) => {
       });
   });
 });
-test.skip("Test /example POST route fails without valid auth token", (t) => {
+
+test("Test /example POST route fails without valid auth token", (t) => {
   build().then(() => {
     const token = jwt.sign(
       {
@@ -195,28 +195,24 @@ test.skip("Test /example POST route fails without valid auth token", (t) => {
         title: "Test Post 99",
         example: "Test body 99",
       })
-      .expect(201)
+      .expect(401)
       .expect("content-type", "application/json; charset=utf-8")
       .end((err, res) => {
-        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.error(err, "HTTP status is 401 and application/json; charset=utf-8");
         t.equals(typeof res.body, typeof {}, "Check an Object is returned");
-        t.equals(
-          typeof res.body.exampleId,
-          typeof 1,
-          "Check we get an integer ID"
-        );
+        t.equals(res.body.error.status, 401, "Should get error object with status 401");
         t.end();
       });
   });
 });
 
-test("Test /example/1 DELETE route", (t) => {
+test("Test /examples/3 DELETE route with correct owner", (t) => {
   build().then(() => {
-    const token = jwt.sign({ user_id: 2, admin: false }, process.env.SECRET, {
+    const token = jwt.sign({ user_id: 3 }, process.env.SECRET, {
       expiresIn: "1hr",
     });
     supertest(server)
-      .delete("/examples/1")
+      .delete("/examples/3")
       .set({
         Authorization: "Bearer " + token,
       })
@@ -231,7 +227,52 @@ test("Test /example/1 DELETE route", (t) => {
   });
 });
 
-test("Test /example/1 DELETE route fails with bad user", (t) => {
+
+test("Test /examples/3 DELETE route with wrong owner", (t) => {
+  build().then(() => {
+    const token = jwt.sign({ user_id: 2 }, process.env.SECRET, {
+      expiresIn: "1hr",
+    });
+    supertest(server)
+      .delete("/examples/3")
+      .set({
+        Authorization: "Bearer " + token,
+      })
+      .expect(403)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 403 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.equals(res.body.error.status, 403, "Should get error object with status 401");
+
+        t.end();
+      });
+  });
+});
+
+test("Test /examples/1 DELETE route with admin user who is not owner", (t) => {
+  build().then(() => {
+    const token = jwt.sign({ user_id: 1 }, process.env.SECRET, {
+      expiresIn: "1hr",
+    });
+    supertest(server)
+      .delete("/examples/4")
+      .set({
+        Authorization: "Bearer " + token,
+      })
+      .expect(200)
+      .expect("content-type", "application/json; charset=utf-8")
+      .end((err, res) => {
+        t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
+        t.equals(typeof res.body, typeof {}, "Check an Object is returned");
+        t.equals(res.body.deleted, true, "Item deleted");
+        t.end();
+      });
+  });
+});
+
+
+test("Test /example/1 DELETE route fails with unauthenticated user", (t) => {
   build().then(() => {
     supertest(server)
       .delete("/examples/1")
@@ -243,8 +284,9 @@ test("Test /example/1 DELETE route fails with bad user", (t) => {
       .end((err, res) => {
         t.error(err, "HTTP status is 200 and application/json; charset=utf-8");
         t.equals(typeof res.body, typeof {}, "Check an Object is returned");
-        t.equals(res.body.error.status, 401, "Should get error with status 401");
+        t.equals(res.body.error.status, 401, "Should get error object with status 401");
         t.end();
       });
   });
 });
+

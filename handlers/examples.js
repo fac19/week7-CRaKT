@@ -9,7 +9,7 @@ function getAllExamples(req, res, next) {
 
 // Inserts a new example into the examples table and returns the inserted row's id
 function post(req, res, next) {
-  req.body.user_id = req.user.user_id;
+  req.body.user_id = req.user.id;
   req.body.admin = req.user.admin;
   modelExample
     .createExample(req.body)
@@ -23,7 +23,7 @@ function post(req, res, next) {
 
 function del(req, res, next) {
   modelExample
-    .deleteExample( req.params.id, req.user.id )
+    .deleteExample( req.params.id, req.user )
     .then(() => {
       res.status(200).send({deleted: true})
     })
@@ -41,11 +41,30 @@ function getExample(req, res, next) {
     .catch(next);
 }
 
-// function updateExample()
+function updateExample(req, res, next) {
+    const id = Number(req.params.id);
+    const userID = req.user.id;
+    const newdata = req.body;
+    if (id === NaN) {
+       const err = new Error ('This is not a valid ID')
+       err.status = 401;
+       next(err)
+    }
+
+    modelExample
+        .updateExamplebyID(id, newdata, userID)
+        .then(result => {
+            res.status(200).send(result)
+        })
+        .catch(next);
+
+
+}
 
 module.exports = {
   getAllExamples,
   post,
   getExample,
-  del
+  del, 
+  updateExample
 };

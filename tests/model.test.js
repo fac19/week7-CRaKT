@@ -12,8 +12,8 @@ const {
 
 const {
   getExample,
-  updateExample,
-  updateExamplebyID,
+  // updateExample,
+  updateExamplebyID
 } = require("../model/examples");
 
 test("DB tests are running!", (t) => {
@@ -32,8 +32,8 @@ test("Can create new user", (t) => {
     createUser(user).then(() => {
       getUsers()
         .then((res) => {
-          t.equal(res[res.length - 1].username, "Bob123");
-          t.equal(res.length, 6);
+          t.equal(res[res.length - 1].username, "Bob123", "User has correct name");
+          t.equal(res.length, 6, "Users table is 1 longer");
           t.end();
         })
         .catch((err) => {
@@ -48,8 +48,8 @@ test("Returns user with a given email address", (t) => {
   build().then(() => {
     getUser("admin@iscool.com")
       .then((res) => {
-        t.equal(res.username, "admin");
-        t.equal(res.adminusr, true);
+        t.equal(res.username, "admin", "Correct name returned");
+        t.equal(res.adminusr, true, "User has admin permissions");
         t.end();
       })
       .catch((err) => {
@@ -63,10 +63,9 @@ test("Can get an example by id", (t) => {
   build().then(() => {
     getExample(1)
       .then((res) => {
-        // console.log(res)
-        t.equal(res.language, "js");
-        t.equal(res.title, "Test example 1");
-        t.equal(res.example, "Example 1 code goes here.");
+        t.equal(res.language, "js", "Correct language returned");
+        t.equal(res.title, "Test example 1", "Correct title returned");
+        t.equal(res.example, "Example 1 code goes here.", "Correct example text returned");
         t.end();
       })
       .catch((err) => {
@@ -76,19 +75,20 @@ test("Can get an example by id", (t) => {
   });
 });
 
-test.skip("get update an example by id", (t) => {
+
+test("Can get update an example by id without all values", (t) => {
   build().then(() => {
     const data = {
       language: "sql",
       // title: 'SQL example snippet',
       example: "This is an example of SQL",
     };
-    updateExamplebyID(4, data)
+    updateExamplebyID(4, data, 4)
       .then((res) => {
-        t.equal(res.language, "sql");
+        t.equal(res.language, "sql", "Language updated OK");
         // t.equal(res.title, 'SQL example snippet')
-        t.equal(res.title, "Test example 4");
-        t.equal(res.example, "This is an example of SQL");
+        t.equal(res.title, "Test example 4", "Title not altered");
+        t.equal(res.example, "This is an example of SQL", "Example text updated OK");
         t.end();
       })
       .catch((err) => {
@@ -98,7 +98,7 @@ test.skip("get update an example by id", (t) => {
   });
 });
 
-// test.only("Can update an example by id without all values", (t) => {
+// test.only("Can update an example by id", (t) => {
 //   build().then(() => {
 //     const data = {
 //       language: "sql",

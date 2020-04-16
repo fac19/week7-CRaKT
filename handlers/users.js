@@ -7,11 +7,12 @@ dotenv.config();
 
 const secret = process.env.SECRET;
 
-function post(req, res, next) {
-  if (!req.body) {
-    throw new Error("Error: no request body");
+function signup(req, res, next) {
+  if (req.body.email === undefined || req.body.username === undefined || req.body.password === undefined) {
+    const error = new Error("Missing parameter: email, username, password all required.");
+    error.status = 400
+    next(error);
   }
-
   const newUserEmail = req.body.email;
   const newUserName = req.body.username;
   const rawPassword = req.body.password;
@@ -50,7 +51,6 @@ function post(req, res, next) {
 }
 
 function login(req, res, next) {
-  console.log(req.body.email, req.body.password);
   model
     .getUser(req.body.email)
     .then((dbUser) => {
@@ -75,6 +75,6 @@ function login(req, res, next) {
 }
 
 module.exports = {
-  post,
+  signup,
   login,
 };
