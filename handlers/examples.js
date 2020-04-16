@@ -23,7 +23,18 @@ function post(req, res, next) {
         .catch(next)
 }
 
+function getExample(req, res, next) {
+    const id = req.params.id;
+    modelExample
+        .getExample(id)
+        .then(result => {
+            res.status(200).send(result);
+        })
+        .catch(next);
+}
+
 module.exports = {
     getAllExamples,
-    post
+    post,
+    getExample
 }

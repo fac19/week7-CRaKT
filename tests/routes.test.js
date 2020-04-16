@@ -72,3 +72,21 @@ test("Test /login route", t => {
         })
     })
 })
+
+
+test("Test GET/example/:id route", t => {
+  build()
+    .then(() => {
+      supertest(server)
+        .get("/example/2")
+        .expect(200)
+        .expect("content-type", "application/json; charset=utf-8")
+        .end((err, res) => {
+          t.error(err)
+          t.equals(typeof res.body, "object", "Check that res.body is an object")
+          t.equals(res.body.language, "sql", "Check the language is the same");
+          t.equals(res.body.title, "Test example 2", "Check the title is the same");
+          t.end()
+        })
+    })
+})

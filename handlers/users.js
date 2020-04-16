@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 dotenv.config();
 
-const secret = process.env.JWT_SECRET;
+const secret = process.env.SECRET;
 
 function post(req, res, next) {
   if (!req.body) {

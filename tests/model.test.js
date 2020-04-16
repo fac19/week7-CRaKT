@@ -55,7 +55,7 @@ test("Returns user with a given email address", (t) => {
   });
 });
 
-test.only('Can get an example by id', t => {
+test('Can get an example by id', t => {
   build().then(() => {
     getExample(1)
       .then((res) => {
