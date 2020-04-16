@@ -22,9 +22,8 @@ function post(req, res, next) {
 }
 
 function del(req, res, next) {
-  
   modelExample
-    .deleteExample( req.body.exampleId, req.user.user_id )
+    .deleteExample( req.params.id, req.user.id )
     .then(() => {
       res.status(200).send({deleted: true})
     })

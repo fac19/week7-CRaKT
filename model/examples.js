@@ -43,9 +43,11 @@ function createExample(example) {
 function deleteExample(exampleId, userId) {
   return getExample(exampleId)
   .then( exampleObjectFromDB => {
+    console.log("exampleObjectFromDB:", exampleObjectFromDB);
     if(exampleObjectFromDB.id === userId){
       return db.query("DELETE FROM examples WHERE id = ($1);", [exampleId])
           .then( result => true )
+          .catch( (error) => new Error ('PROBLEM DELETING!') )
     } else {
       return false;
     }
