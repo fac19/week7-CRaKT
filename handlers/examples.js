@@ -32,7 +32,22 @@ function getExample(req, res, next) {
     .catch(next);
 }
 
-// function updateExample()
+function updateExample(req, res, next) {
+    const id = req.params.id;
+    const newdata = req.body;
+    if (typeof id !== "number") {
+       const err = new Error ('This is not a valid ID')
+       err.status = 401;
+       next(err)
+    }
+
+    modelExample
+        .updateExamplebyID(id, newdata)
+        .then(result => {
+        })
+
+
+}
 
 module.exports = {
   getAllExamples,

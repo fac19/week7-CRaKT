@@ -75,7 +75,7 @@ test("Can get an example by id", (t) => {
   });
 });
 
-test("get update an example by id", (t) => {
+test.only("Can get update an example by id without all values", (t) => {
   build().then(() => {
     const data = {
       language: "sql",
@@ -97,7 +97,7 @@ test("get update an example by id", (t) => {
   });
 });
 
-// test.only("Can update an example by id without all values", (t) => {
+// test.only("Can update an example by id", (t) => {
 //   build().then(() => {
 //     const data = {
 //       language: "sql",

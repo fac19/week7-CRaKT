@@ -50,32 +50,39 @@ function updateExample(id, newdata) {
       //must update ALL VALUES otherwise any value not updated will return NULL
       .then((res) => res.rows[0])
   );
+
 }
 
-// function updateExamplebyID(id, newdata) {
-//   // Setup static beginning of query
-//   var query = ["UPDATE examples"];
-//   query.push("SET");
+function updateExamplebyID(id, newdata) {
+  // Setup static beginning of query
+  var query = ["UPDATE examples"];
+  query.push("SET");
 
-//   // Create another array storing each set command
-//   // and assigning a number value for parameterized query
-//   var set = [];
-//   Object.keys(newdata).forEach((key, i) => {
-//     set.push(key + " = ($" + (i + 1) + ")");
-//   });
-//   query.push(set.join(", "));
+  // Create another array storing each set command
+  // and assigning a number value for parameterized query
+  const set = [];
+  const values = [];
+  Object.keys(newdata).forEach((key, i) => {
+    set.push(key + "=($" + (i + 1) + ")");
+    values.push(newdata[key]);
+  });
+  query.push(set.join(", "));
 
-//   // Add the WHERE statement to look up by id
-//   query.push("WHERE id = " + id + " RETURNING *");
+  // Add the WHERE statement to look up by id
+  query.push("WHERE id=" + id + " RETURNING *");
+ 
+  // Return a complete query string
+  //   query.join(" ");
+  console.log(query.join(" "))
+  console.log(values)
 
-//   // Return a complete query string
-//   return query.join(" ");
-// }
+  return db.query(query.join(" "), values).then((res) => res.rows[0]);
+}
 
 module.exports = {
   getAllExamples,
   createExample,
   getExample,
   updateExample,
-  //   updateExamplebyID,
+  updateExamplebyID,
 };
