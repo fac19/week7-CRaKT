@@ -20,6 +20,7 @@
   "homepage": "https://github.com/fac19/week7-CRaKT#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "ci": "^1.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
