@@ -230,23 +230,23 @@ We sadly didn't get that far but lookout for this feature in the next version!
 
 ### Project Acceptance Criteria
 
--[x] An Express server that only returns JSON
+- [x] An Express server that only returns JSON
 
--[x] A Postgres database to store the data
+- [x] A Postgres database to store the data
 
--[x] Endpoints for creating, reading, updating & deleting resources
+- [x] Endpoints for creating, reading, updating & deleting resources
 
--[x] Token-based authentication so only the owner of a resource can change it
+- [x] Token-based authentication so only the owner of a resource can change it
 
--[x] Correct headers and response metadata (we think)
+- [x] Correct headers and response metadata (we think)
 
--[x] Error-handling to make it easy to use the API to build something
+- [x] Error-handling to make it easy to use the API to build something
 
--[x] Tests for server routes and database access
+- [x] Tests for server routes and database access
 
--[x] Not process user input as SQL commands
+- [x] Not process user input as SQL commands
 
--[x] Hidden environment variables (i.e. not on GitHub)
+- [x] Hidden environment variables (i.e. not on GitHub)
 
 
 
