@@ -5,6 +5,7 @@ function getAllExamples() {
     .query(
       `SELECT 
     users.username,
+    examples.id,
     examples.owner_id,
     examples.language,
     examples.title,
