@@ -6,7 +6,7 @@ Project live at https://crakt.herokuapp.com/
 
 REST API returning JSON data with endpoints for creating, reading, updating and deleting stored resources.
 
-API stores "code snippets" examples in a formal bellow:
+API stores "code snippets" examples in the form below:
 
 ```javascript
 {
@@ -65,21 +65,40 @@ CREATE TABLE examples
    CREATE DATABASE local_production_database_name WITH OWNER your_user;
    ```
 5. Create a test database called localtest with the same owner/user
+   ```sql
    CREATE DATABASE localtest WITH OWNER your_user;
-   Alternatively edit testin package.json to use a db of your choosing
-6. Create an .env file in project root
+   ```
+6. Create an .env file in the project's root folder
    - PGDATABASE=local_production_database_name
    - PGUSER=your_user
    - PGPASSWORD=your_password
    - SECRET=JWTSECRET
+   You can choose a secret of your choice.
 7. npm run setupdb
-   Alternatively import db/init.sql in your preffered db admin tool
-8. npm run dev to run for development purpouses
-9. OR node server.js to run server locally
+   Alternatively import db/init.sql in your preferred db admin tool
+
+### Running the server
+
+    `npm run dev` to run for development purposes
+
+    OR `node server.js` to run server in production mode
 
 ### Running tests
 
 `npm run test`
+
+### Example users and passwords
+
+There are five default users, their email addresses are.
+- admin@iscool.com
+- tom@iscool.com
+- chloe@iscool.com
+- kat@iscool.com
+- roger@iscool.com
+
+Their passwords are, unsurprisingly, 'password'.
+
+The admin account is special. It can delete anyone's posts, other users can only delete their own.
 
 # Using the API
 
@@ -103,7 +122,7 @@ Send a post request to path above using raw json request. Example below:
 }
 ```
 
-If successful, user obeject is returned.
+If successful, user object is returned.
 If user already exists, error will be returned.
 
 ### Login as user
@@ -119,7 +138,7 @@ Send a post request to path above using raw json request. Example below:
 }
 ```
 
-If successful, token obeject is returned. YOU WILL NEED THIS TOKEN TO ADD OR DELETE EXAMPLES!
+If successful, token object is returned. YOU WILL NEED THIS TOKEN TO ADD OR DELETE EXAMPLES!
 If email or password are incorrect, error will be returned.
 
 ### Get example with a specified ID
@@ -168,11 +187,11 @@ If successfull you will receive a json object as below:
 
 `PUT /examples/:id`
 
-SORRY LOOKS LIKE I AM CURRENTLY NOT WORKING :(
-
 YOU MUST LOG IN FIRST AND HAVE AN AUTHORIZATION TOKEN.
 
-Send a PUT request with the ID of the example you want to update in the URL. Please make sure header is set to Conent-Type with a value of application/json. Request must be sent with AUTHORIZATION bearer token! You can go to the "Authorization" tab, select "Bearer Token" from the "Type" dropdown, then set the token as "token_generated_during_singup".
+ONLY THE CREATOR OF AN EXAMPLE HAS PERMISSION TO DELETE IT.
+
+Send a PUT request with the ID of the example you want to update in the URL. Please make sure header is set to Content-Type with a value of application/json. Request must be sent with AUTHORIZATION bearer token! You can go to the "Authorization" tab, select "Bearer Token" from the "Type" dropdown, then set the token as "token_generated_during_signup".
 
 Request needs to be sent using raw json format as below:
 
@@ -184,8 +203,18 @@ Request needs to be sent using raw json format as below:
 }
 ```
 
+You only need to include the fields you want to update. Omitted fields will remain unchanged,
+
+
+### Search by keyword and filter by language example
+
+`GET /search/yourSearchTerm?lang=js`
+
+We sadly didn't get that far but lookout for this feature in the next version!
+
+
 ### The end
 
-Hope you read it and it made sense! It took me whole blody morning. If it didn't make sense please let me know what could be made for better readibility.
+Hope you read it and it made sense! It took me whole bloody morning. If it didn't make sense please let me know what could be made for better readability.
 
 Saludos!
