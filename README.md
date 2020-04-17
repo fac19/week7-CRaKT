@@ -30,6 +30,15 @@ Project build as a part of Founders and Coders FAC19.
 - Express
 - PostgreSQL
 
+### User Stories
+- As an API user, I want to: get a list of all available resources
+- As an API user, I want to: get all the information on a specific resource
+- As an API user, I want to: create a new resource
+- As an API user, I want to: update an existing resource
+- As an API user, I want to: delete an existing resource
+- As an API user, I want to: only be able to change an existing resource if I am authenticated to do so
+
+
 ### Database Schema
 
 ```sql
@@ -60,10 +69,16 @@ CREATE TABLE examples
 1. Clone repo
 2. cd into folder
 3. Run NPM install
-4. Create a local production psql data base.
+4. If you already have an existing SUPERUSER
+create a local production psql data base and assign it to that user.
    ```sql
    CREATE DATABASE local_production_database_name WITH OWNER your_user;
    ```
+   
+  OTHERWISE change your user to a superuser
+ ```sql ALTER USER your_user WITH SUPERUSER ```
+
+  
 5. Create a test database called localtest with the same owner/user
    ```sql
    CREATE DATABASE localtest WITH OWNER your_user;
@@ -211,6 +226,28 @@ You only need to include the fields you want to update. Omitted fields will rema
 `GET /search/yourSearchTerm?lang=js`
 
 We sadly didn't get that far but lookout for this feature in the next version!
+
+
+### Project Acceptance Criteria
+
+-[x] An Express server that only returns JSON
+
+-[x] A Postgres database to store the data
+
+-[x] Endpoints for creating, reading, updating & deleting resources
+
+-[x] Token-based authentication so only the owner of a resource can change it
+
+-[x] Correct headers and response metadata (we think)
+
+-[x] Error-handling to make it easy to use the API to build something
+
+-[x] Tests for server routes and database access
+
+-[x] Not process user input as SQL commands
+
+-[x] Hidden environment variables (i.e. not on GitHub)
+
 
 
 ### The end
