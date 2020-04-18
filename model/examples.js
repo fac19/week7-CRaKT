@@ -61,47 +61,13 @@ function getExample(id) {
     .then((res) => res.rows[0]);
 }
 
- //must update ALL VALUES otherwise any value not updated will return NULL
-
-// function updateExample(id, newdata) {
-//   return (
-//     db
-//       .query(
-//         "UPDATE examples SET language=($1), title=($2), example=($3) WHERE id =($4) RETURNING  *",
-//         [newdata.language, newdata.title, newdata.example, id]
-//       )
-//      
-//       .then((res) => res.rows[0])
-//   );
-
-// }
 
 function updateExamplebyID(id, newdata, userId) {
     return getExample(id)
     .then(dbExample => {
     if(dbExample.id === userId){
-
-        var query = ["UPDATE examples"];
-        query.push("SET");
-      
-        // Create new array and store each set parameter
-        // assign a number value for parameterized query
-        const set = [];
-        const values = [];
-        Object.keys(newdata).forEach((key, i) => {
-          set.push(key + "=($" + (i + 1) + ")");
-          values.push(newdata[key]);
-        });
-        query.push(set.join(", "));
-      
-        // Add WHERE statement to look up by id
-        query.push("WHERE id=" + id + " RETURNING *");
-       
-        // Return a complete query string
-      //   console.log(query.join(" "))
-      //   console.log(values)
-      
-        return db.query(query.join(" "), values)
+      const vals = [ newdata.language, newdata.title, newdata.example, id ];
+      return db.query("UPDATE examples SET language = COALESCE($1, language), title = COALESCE($2, title), example = COALESCE($3, example) WHERE id =($4) RETURNING *", vals)
         .then((res) => res.rows[0]);
       } else {
         const error = new Error("You do not own this example")
@@ -110,7 +76,21 @@ function updateExamplebyID(id, newdata, userId) {
     }
  })
 }
+
+// var query = ["UPDATE examples"];
+//         query.push("SET");
   
+//         const set = [];
+//         const values = [];
+//         Object.keys(newdata).forEach((key, i) => {
+//           set.push(key + "=($" + (i + 1) + ")");
+//           values.push(newdata[key]);
+//         });
+//         query.push(set.join(", "));
+    
+//         query.push("WHERE id=" + id + " RETURNING *");
+      
+//         return db.query(query.join(" "), values)
 
 module.exports = {
   getAllExamples,

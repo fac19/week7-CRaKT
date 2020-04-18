@@ -12,7 +12,6 @@ const {
 
 const {
   getExample,
-  // updateExample,
   updateExamplebyID
 } = require("../model/examples");
 
@@ -76,17 +75,15 @@ test("Can get an example by id", (t) => {
 });
 
 
-test("Can get update an example by id without all values", (t) => {
+test.only("Can get update an example by id without all values", (t) => {
   build().then(() => {
     const data = {
       language: "sql",
-      // title: 'SQL example snippet',
       example: "This is an example of SQL",
     };
     updateExamplebyID(4, data, 4)
       .then((res) => {
         t.equal(res.language, "sql", "Language updated OK");
-        // t.equal(res.title, 'SQL example snippet')
         t.equal(res.title, "Test example 4", "Title not altered");
         t.equal(res.example, "This is an example of SQL", "Example text updated OK");
         t.end();
