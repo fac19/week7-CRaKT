@@ -49,7 +49,9 @@ function signup(req, res, next) {
     })
     .catch(console.error);
 }
-
+// login function 
+// IMPROVEMENTS 
+// display error message if email or password are missing
 function login(req, res, next) {
   model
     .getUser(req.body.email)
