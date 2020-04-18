@@ -23,12 +23,11 @@ function post(req, res, next) {
 
 function del(req, res, next) {
   modelExample
-    .deleteExample( req.params.id, req.user )
+    .deleteExample(req.params.id, req.user)
     .then(() => {
-      res.status(200).send({deleted: true})
+      res.status(200).send({ deleted: true });
     })
     .catch(next);
-
 }
 
 function getExample(req, res, next) {
@@ -36,35 +35,37 @@ function getExample(req, res, next) {
   modelExample
     .getExample(id)
     .then((result) => {
+      console.log(!result === undefined);
+      if (!result) {
+        res.status(204).send("Error: Resource not found");
+      }
       res.status(200).send(result);
     })
     .catch(next);
 }
 
 function updateExample(req, res, next) {
-    const id = Number(req.params.id);
-    const userID = req.user.id;
-    const newdata = req.body;
-    if (id === NaN) {
-       const err = new Error ('This is not a valid ID')
-       err.status = 401;
-       next(err)
-    }
+  const id = Number(req.params.id);
+  const userID = req.user.id;
+  const newdata = req.body;
+  if (id === NaN) {
+    const err = new Error("This is not a valid ID");
+    err.status = 401;
+    next(err);
+  }
 
-    modelExample
-        .updateExamplebyID(id, newdata, userID)
-        .then(result => {
-            res.status(200).send(result)
-        })
-        .catch(next);
-
-
+  modelExample
+    .updateExamplebyID(id, newdata, userID)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch(next);
 }
 
 module.exports = {
   getAllExamples,
   post,
   getExample,
-  del, 
-  updateExample
+  del,
+  updateExample,
 };
