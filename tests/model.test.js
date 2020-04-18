@@ -33,6 +33,15 @@ test("Can create new user", t => {
     });
 });
 
+test("Returns error if no user found", t => {
+    build().then(() => {
+        getUser("hello@iscool.com").catch(err => {
+            t.equals(err.message, "User does not exist");
+            t.end();
+        });
+    });
+});
+
 test("Returns user with a given email address", t => {
     build().then(() => {
         getUser("admin@iscool.com")
@@ -84,69 +93,34 @@ test("Can get update an example by id without all values", t => {
     });
 });
 
-// test.only("Can update an example by id", (t) => {
-//   build().then(() => {
-//     const data = {
-//       language: "sql",
-//       example: "This is an example of SQL",
-//     };
-//     updateExample(4, data)
-//       .then((res) => {
-//         t.equal(res.language, "sql");
-//         // t.equal(res.title, 'SQL example snippet')
-//         t.equal(res.title, null);
-//         t.equal(res.example, "This is an example of SQL");
-//         t.end();
-//       })
-//       .catch((err) => {
-//         t.error(err);
-//         t.end();
-//       });
-//   });
-// });
+test("Returns a users row by id", t => {
+    build().then(() => {
+        getUserById("2")
+            .then(res => {
+                t.equal(res.username, "Tom");
+                t.equal(res.adminusr, false);
+                t.end();
+            })
+            .catch(err => {
+                t.error(err);
+                t.end();
+            });
+    });
+});
 
-// test("Returns a users row by id", (t) => {
-//   build().then(() => {
-//     getUserById("2")
-//       .then((res) => {
-//         t.equal(res.username, "Tom");
-//         t.equal(res.adminusr, false);
-//         t.end();
-//       })
-//       .catch((err) => {
-//         t.error(err);
-//         t.end();
-//       });
-//   });
-// });
-
-// test("Returns error if no user found", (t) => {
-//   build().then(() => {
-//     t.throws(() => getUser("hello@iscool.com"))
-//     t.end();
-//   })
-// });
-
-// test("Does not allow duplicate users when email is already in use", (t) => {
-//   build()
-//     .then(() => {
-//       const user = {
-//         username: "Tommy",
-//         email: "tom@iscool.com",
-//         password:
-//           "$2a$10$3IAfxI7ekmnHqMv1T8a46O./avVNcq/YYk6SGkRwxEHsy9cQasuUy",
-//       };
-//       createUser(user).then(() => {
-//         getUsers().then((res) => {
-//           console.log("hello");
-//           t.equal(res[res.length - 1].username, "Roger");
-//           t.equal(res.length, 5);
-//           t.end();
-//         });
-//       });
-//     })
-//     .catch((err) => {
-//       t.error(err);
-//       t.end();
-//     });
-// });
+test("Does not allow duplicate users when email is already in use", t => {
+    build().then(() => {
+        const user = {
+            username: "Tommy",
+            email: "tom@iscool.com",
+            password: "password"
+        };
+        createUser(user).catch(() => {
+            getUsers().then(res => {
+                t.equal(res[res.length - 1].username, "Roger", "Database has not changed");
+                // t.equal(res.length, 5);
+                t.end();
+            });
+        });
+    });
+});
