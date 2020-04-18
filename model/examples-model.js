@@ -38,6 +38,7 @@ function createExample(example) {
 function deleteExample(exampleId, user) {
     return getExample(exampleId).then(exampleObjectFromDB => {
         if (exampleObjectFromDB.id === user.id || user.adminusr) {
+            // check if user is authorised
             return db
                 .query("DELETE FROM examples WHERE id = ($1);", [exampleId])
                 .then(result => true)

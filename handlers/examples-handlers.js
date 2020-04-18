@@ -45,10 +45,11 @@ function getExample(req, res, next) {
 }
 
 function updateExample(req, res, next) {
-    const id = Number(req.params.id);
+    const id = Number(req.params.id); //req.params.id comes back as a string
     const userID = req.user.id;
     const newdata = req.body;
     if (id === NaN) {
+        // if id was not a number then throws an error (prevents SQL injections)
         const err = new Error("This is not a valid ID");
         err.status = 401;
         next(err);
